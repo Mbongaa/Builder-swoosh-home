@@ -1,17 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Index() {
-  const [arabicText] = useState([
+  // Dynamic state for real-time updates
+  const [arabicText, setArabicText] = useState([
     "الحمد لله رب العالمين",
     "بسم الله الرحمن الرحيم",
     "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً",
   ]);
 
-  const [dutchText] = useState([
+  const [dutchText, setDutchText] = useState([
     "Vrede zij met u en Gods barmhartigheid en zegeningen",
     "Alle lof is voor Allah, de Heer der werelden",
     "In de naam van Allah, de Barmhartige, de Genadevolle",
   ]);
+
+  // WebSocket integration placeholder
+  useEffect(() => {
+    // TODO: Add your WebSocket connection here
+    // Example:
+    // const ws = new WebSocket('ws://your-livekit-server');
+    // ws.onmessage = (event) => {
+    //   const message = JSON.parse(event.data);
+    //   if (message.type === "transcription") {
+    //     setArabicText(prev => [...prev.slice(1), message.text]);
+    //   } else if (message.type === "translation") {
+    //     setDutchText(prev => [...prev.slice(1), message.text]);
+    //   }
+    // };
+    // return () => ws.close();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-gray-50 to-teal-100 flex items-center justify-center p-8">
