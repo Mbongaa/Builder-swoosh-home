@@ -33,8 +33,8 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center px-20 py-16">
       <div className="w-full max-w-4xl mx-auto space-y-20">
-        {/* Arabic Transcription - Top Center */}
-        <div className="text-center space-y-6" dir="rtl">
+        {/* Arabic Transcription - Top Right */}
+        <div className="text-right space-y-6" dir="rtl">
           <h3 className="text-gray-400 text-sm font-medium tracking-wide mb-8">
             Arabic Transcription
           </h3>
@@ -60,8 +60,8 @@ export default function Index() {
           </div>
         </div>
 
-        {/* Dutch Translation - Bottom Center */}
-        <div className="text-center space-y-6">
+        {/* Dutch Translation - Bottom Left */}
+        <div className="text-left space-y-6">
           <h3 className="text-gray-400 text-sm font-medium tracking-wide mb-8">
             Dutch Translation
           </h3>
