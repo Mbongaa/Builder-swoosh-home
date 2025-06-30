@@ -1,106 +1,224 @@
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Index() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isIframeLoaded, setIsIframeLoaded] = useState(false);
+  const [arabicText, setArabicText] = useState("مرحبا كيف حالك؟");
+  const [dutchText, setDutchText] = useState("Hallo, hoe gaat het?");
+  const [isConnected, setIsConnected] = useState(true);
+  const [isListening, setIsListening] = useState(false);
 
+  // Mock real-time updates for demo
   useEffect(() => {
-    // Simulate initial loading state
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    const interval = setInterval(() => {
+      setIsListening((prev) => !prev);
+    }, 3000);
 
-    return () => clearTimeout(timer);
+    return () => clearInterval(interval);
   }, []);
 
-  const handleIframeLoad = () => {
-    setIsIframeLoaded(true);
-  };
-
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
-      {/* Loading Overlay */}
-      {isLoading && (
-        <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-50 flex items-center justify-center">
-          <div className="relative">
-            <div className="w-12 h-12 border-4 border-gray-200 border-t-gray-600 rounded-full animate-spin"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-2 h-2 bg-gray-600 rounded-full animate-pulse"></div>
-            </div>
-          </div>
-        </div>
-      )}
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
 
-      {/* Main Content Container */}
-      <div className="relative w-full h-screen flex items-center justify-center">
-        {/* Content Wrapper */}
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-center">
-          {/* Embedded Content Container */}
-          <div className="relative w-full h-full max-w-5xl max-h-[80vh] bg-white rounded-lg shadow-2xl overflow-hidden">
-            {/* Iframe Loading State */}
-            {!isIframeLoaded && !isLoading && (
-              <div className="absolute inset-0 bg-gray-50 flex items-center justify-center z-10">
-                <div className="text-center">
-                  <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin mx-auto"></div>
-                  <p className="mt-4 text-gray-600 text-sm">
-                    Loading content...
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* Embedded Canva Content */}
-            <iframe
-              src="https://bf6wzc6xrgbg7pd1.canva-hosted-embed.com/codelet/AAEAEGJmNnd6YzZ4cmdiZzdwZDEAAAAAAZfGxfC6IfTmOx_UCB3_WuOdkay6FC9X092Q42sYWxW5HNJWMw8/"
-              className={`w-full h-full border-0 transition-opacity duration-300 ${
-                isIframeLoaded ? "opacity-100" : "opacity-0"
-              }`}
-              sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-              allowFullScreen
-              title="Interactive Content"
-              onLoad={handleIframeLoad}
-            />
-          </div>
-        </div>
-
-        {/* Optional: Branded Corner */}
-        <div className="absolute top-6 left-6 z-20">
-          <div className="bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg">
-            <span className="text-sm font-medium text-gray-800">
-              Interactive Experience
+      {/* Header */}
+      <header className="relative z-20 p-6">
+        <div className="flex items-center justify-between">
+          {/* Brand */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 border border-white/10"
+          >
+            <span className="text-white font-medium text-sm tracking-wide">
+              Live Transcription
             </span>
-          </div>
-        </div>
+          </motion.div>
 
-        {/* Optional: Info Corner */}
-        <div className="absolute top-6 right-6 z-20">
-          <button className="bg-white/80 backdrop-blur-sm rounded-full p-3 shadow-lg hover:bg-white/90 transition-colors group">
-            <svg
-              className="w-5 h-5 text-gray-600 group-hover:text-gray-800"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          {/* Status */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-4"
+          >
+            {/* Connection Status */}
+            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 border border-white/10">
+              <div
+                className={`w-2 h-2 rounded-full ${isConnected ? "bg-green-400" : "bg-red-400"} animate-pulse`}
+              ></div>
+              <span className="text-white text-xs">
+                {isConnected ? "Connected" : "Disconnected"}
+              </span>
+            </div>
+
+            {/* Info Button */}
+            <button className="bg-white/10 backdrop-blur-sm rounded-full p-3 border border-white/10 hover:bg-white/20 transition-colors group">
+              <svg
+                className="w-5 h-5 text-white/80 group-hover:text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </button>
+          </motion.div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="relative z-10 px-6 pb-6">
+        <div className="max-w-7xl mx-auto">
+          {/* Audio Visualization */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-center mb-8"
+          >
+            <div className="flex items-center justify-center gap-1 mb-4">
+              {[...Array(5)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="w-1 bg-gradient-to-t from-blue-500 to-cyan-400 rounded-full"
+                  animate={{
+                    height: isListening
+                      ? [20, 40, 60, 40, 20]
+                      : [20, 25, 20, 25, 20],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    delay: i * 0.1,
+                  }}
+                />
+              ))}
+            </div>
+            <p className="text-white/70 text-sm">
+              {isListening ? "Listening..." : "Ready to transcribe"}
+            </p>
+          </motion.div>
+
+          {/* Transcription Panels */}
+          <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+            {/* Arabic Panel */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+              className="group"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
+              <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6 h-80 relative overflow-hidden">
+                {/* Panel Header */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full flex items-center justify-center">
+                      <span className="text-white text-xs font-bold">AR</span>
+                    </div>
+                    <div>
+                      <h3 className="text-white font-semibold">Arabic</h3>
+                      <p className="text-white/50 text-xs">
+                        Original transcription
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-white/40 text-xs">
+                    {arabicText.length} chars
+                  </div>
+                </div>
 
-      {/* Mobile Responsive Message */}
-      <div className="fixed bottom-4 left-4 right-4 md:hidden z-30">
-        <div className="bg-gray-900/90 backdrop-blur-sm text-white text-sm px-4 py-3 rounded-lg text-center">
-          <p>For the best experience, view on a larger screen</p>
-        </div>
-      </div>
+                {/* Text Content */}
+                <div className="relative h-48 overflow-y-auto">
+                  <AnimatePresence mode="wait">
+                    <motion.p
+                      key={arabicText}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="text-white text-xl leading-relaxed text-right font-medium"
+                      dir="rtl"
+                    >
+                      {arabicText}
+                    </motion.p>
+                  </AnimatePresence>
+                </div>
 
-      {/* Gradient Overlays for Visual Enhancement */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/20 via-transparent to-purple-50/20 pointer-events-none"></div>
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
+              </div>
+            </motion.div>
+
+            {/* Dutch Panel */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 }}
+              className="group"
+            >
+              <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6 h-80 relative overflow-hidden">
+                {/* Panel Header */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
+                      <span className="text-white text-xs font-bold">NL</span>
+                    </div>
+                    <div>
+                      <h3 className="text-white font-semibold">Dutch</h3>
+                      <p className="text-white/50 text-xs">Live translation</p>
+                    </div>
+                  </div>
+                  <div className="text-white/40 text-xs">
+                    {dutchText.length} chars
+                  </div>
+                </div>
+
+                {/* Text Content */}
+                <div className="relative h-48 overflow-y-auto">
+                  <AnimatePresence mode="wait">
+                    <motion.p
+                      key={dutchText}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="text-white text-xl leading-relaxed font-medium"
+                    >
+                      {dutchText}
+                    </motion.p>
+                  </AnimatePresence>
+                </div>
+
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Controls */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="flex items-center justify-center gap-4 mt-8"
+          >
+            <button className="bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 border border-white/10 hover:bg-white/20 transition-colors text-white text-sm font-medium">
+              Clear All
+            </button>
+            <button className="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full px-8 py-3 text-white text-sm font-medium hover:from-blue-600 hover:to-cyan-600 transition-colors shadow-lg">
+              Export Transcript
+            </button>
+          </motion.div>
+        </div>
+      </main>
+
+      {/* Floating Elements */}
+      <div className="absolute top-1/4 left-10 w-2 h-2 bg-blue-400/30 rounded-full animate-pulse"></div>
+      <div className="absolute top-3/4 right-20 w-1 h-1 bg-cyan-400/40 rounded-full animate-ping"></div>
+      <div className="absolute bottom-1/4 left-1/4 w-1.5 h-1.5 bg-purple-400/20 rounded-full animate-pulse"></div>
     </div>
   );
 }
